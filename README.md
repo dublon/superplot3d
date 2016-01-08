@@ -13,7 +13,7 @@ Files were previously available at www.superplot3d.slu.se
 
 For compiling guide see the deployment.pdf.
 
-Update 2016-01-08: Move in hosting from Sverigeslantbruksuniversitet (superplot3d.slu.se) to GitHub
+Update 2016-01-08: Move in hosting from Sveriges lantbruksuniversitet (superplot3d.slu.se) to GitHub
 Update 2015-10-23: Our manuscript has officially been downloaded 3745 times!
 Update 2014-10-27: Website update.
 Update 2013-10-01: This paper is now in print [.pdf].
