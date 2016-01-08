@@ -7,7 +7,9 @@ Whitehorn, L.J., Hawkes, F.M. and Dublon, I.A.N. (2013)
 
 SuperPlot3d: an open source GUI tool for 3d trajectory visualisation and elementary processing.
 
-Source Code for Biology and Medicine 2013, 8:19 doi:10.1186/1751-0473-8-19
+Source Code for Biology and Medicine 2013, 8:19 
+doi:10.1186/1751-0473-8-19
+http://scfbm.biomedcentral.com/articles/10.1186/1751-0473-8-19
 
 Files were previously available at www.superplot3d.slu.se
 
