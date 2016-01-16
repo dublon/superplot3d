@@ -54,6 +54,9 @@ We gratefully acknowledge several authors for their freeware functions used here
 
 Ian Dublon (email: ian dot dublon at slu dot se), Alnarp, Sweden. October 1st 2013.
 
+# Running the program
+From the superplot working directory, type superplot3d.m from the matlab command line.
+
 # Compilation
 
 Matlab source code is provided. It is advisable to compile for yourselves on your specific system, see deployment using the Matlab Compiler .pdf.
