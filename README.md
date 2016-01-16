@@ -21,7 +21,7 @@ Update 2015-10-23: Our manuscript has officially been downloaded 3745 times!
 
 Update 2013-10-01: This paper is now in print [.pdf].
 
-Superplot3d v.1.0 at a glance:
+# Superplot3d v.1.0 at a glance:
 Written for Matlab (R2011 and above) and can easily be compiled to run as a standalone app;
 Reads in Cartesian 3d data in the form X Y Z and Time;
 Allows viewing in free rotatable space;
@@ -68,6 +68,7 @@ http://www.mathworks.se/products/compiler/mcr/
 2014-10-27 A contributed precompiled version built with R2011a has been made available, thus requiring the R2011a MCR (v.7.15). Contact Ian for more details.
 
 # Example data
-1) Simple example of data with obvious anomalous points is provided in example.txt
+
+1) Simple example of data with obvious anomalous points is provided in example.txt from the examples directory.
 
 
