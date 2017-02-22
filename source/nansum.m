@@ -1,23 +1,51 @@
-function y = nansum(x)
-%NANSUM   Sum ignoring NaNs.
+function y = nansum(x,dim)
+% FORMAT: Y = NANSUM(X,DIM)
+% 
+%    Sum of values ignoring NaNs
 %
-%    NANSUM(X) returns the sum over non-NaN elements of X.  For
-%    vectors, NANSUM(X) is the sum of the non-NaN elements in X. For
-%    matrices, NANSUM(X) is a row vector containing the sum of the
-%    non-NaN elements in each column of X.
+%    This function enhances the functionality of NANSUM as distributed in
+%    the MATLAB Statistics Toolbox and is meant as a replacement (hence the
+%    identical name).  
 %
-%    See also NANMEAN, NANSTD.
+%    NANSUM(X,DIM) calculates the mean along any dimension of the N-D array
+%    X ignoring NaNs.  If DIM is omitted NANSUM averages along the first
+%    non-singleton dimension of X.
+%
+%    Similar replacements exist for NANMEAN, NANSTD, NANMEDIAN, NANMIN, and
+%    NANMAX which are all part of the NaN-suite.
+%
+%    See also SUM
 
-  error(nargchk(1,1,nargin))          % check number of input arguments 
-				      
-  % replace NaNs with zeros.
-  nans    = isnan(x);
-  inan    = find(nans);
-  x(inan) = zeros(size(inan));
+% -------------------------------------------------------------------------
+%    author:      Jan Gläscher
+%    affiliation: Neuroimage Nord, University of Hamburg, Germany
+%    email:       glaescher@uke.uni-hamburg.de
+%    
+%    $Revision: 1.2 $ $Date: 2005/06/13 12:14:38 $
 
-  y       = sum(x);
-  
-  % protect against an entire column of NaNs
-  iall    = find(all(nans));
-  y(iall) = NaN;
+if isempty(x)
+	y = [];
+	return
+end
 
+if nargin < 2
+	dim = min(find(size(x)~=1));
+	if isempty(dim)
+		dim = 1;
+	end
+end
+
+% Replace NaNs with zeros.
+nans = isnan(x);
+x(isnan(x)) = 0; 
+
+% Protect against all NaNs in one dimension
+count = size(x,dim) - sum(nans,dim);
+i = find(count==0);
+
+y = sum(x,dim);
+y(i) = NaN;
+
+
+
+% $Id: nansum.m,v 1.2 2005/06/13 12:14:38 glaescher Exp glaescher $

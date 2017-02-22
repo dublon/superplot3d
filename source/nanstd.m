@@ -1,56 +1,80 @@
-function sx = nanstd(x, flag)
-%NANSTD   Standard deviation of available data, ignoring NaNs.
+function y = nanstd(x,dim,flag)
+% FORMAT: Y = NANSTD(X,DIM,FLAG)
+% 
+%    Standard deviation ignoring NaNs
 %
-%    NANSTD(X) returns the standard deviation of the available data in
-%    X, treating NaNs as missing values.  For vectors, NANSTD(X) is
-%    the standard deviation of the non-NaN elements in X.  For
-%    matrices, NANSTD(X) is a row vector containing the standard
-%    deviation of the non-NaN elements in each column.
+%    This function enhances the functionality of NANSTD as distributed in
+%    the MATLAB Statistics Toolbox and is meant as a replacement (hence the
+%    identical name).  
 %
-%    NANSTD(X) normalizes by (N-1) where, for each element of
-%    NANSTD(X), N is number of available values.
+%    NANSTD(X,DIM) calculates the standard deviation along any dimension of
+%    the N-D array X ignoring NaNs.  
 %
-%    NANSTD(X,0) normalizes by N and produces the second moment of the
-%    available data about their mean.  NANSTD(X,1) is the same as
-%    NANSTD(X).
-%  
-%    See also STD, NANMEAN.
+%    NANSTD(X,DIM,0) normalizes by (N-1) where N is SIZE(X,DIM).  This make
+%    NANSTD(X,DIM).^2 the best unbiased estimate of the variance if X is
+%    a sample of a normal distribution. If omitted FLAG is set to zero.
+%    
+%    NANSTD(X,DIM,1) normalizes by N and produces the square root of the
+%    second moment of the sample about the mean.
+%
+%    If DIM is omitted NANSTD calculates the standard deviation along first
+%    non-singleton dimension of X.
+%
+%    Similar replacements exist for NANMEAN, NANMEDIAN, NANMIN, NANMAX, and
+%    NANSUM which are all part of the NaN-suite.
+%
+%    See also STD
 
-  % maximum admissible fraction of missing values
-  max_miss = 0.6;                
+% -------------------------------------------------------------------------
+%    author:      Jan Gläscher
+%    affiliation: Neuroimage Nord, University of Hamburg, Germany
+%    email:       glaescher@uke.uni-hamburg.de
+%    
+%    $Revision: 1.1 $ $Date: 2004/07/15 22:42:15 $
 
-  error(nargchk(1,2,nargin))          % check number of input arguments 
-  if isempty(x)                       % check for empty input.
-    sx = NaN;
-    return
-  end
-  if ndims(x) > 2,  error('Data must be vector or 2-D array.'); end
+if isempty(x)
+	y = NaN;
+	return
+end
 
-  if nargin < 2, flag = 1; end        % default: normalize by nobs-1
+if nargin < 3
+	flag = 0;
+end
 
-  % if x is a vector, make sure it is a row vector
-  if length(x)==prod(size(x))         
-    x = x(:);                         
-  end  
-  [m,n]   = size(x);
-    
-  % determine number of available observations on each variable
-  inan    = find(isnan(x));
-  [i,j]   = ind2sub([m,n], inan);     % subscripts of missing entries
-  nans    = sparse(i,j,1,m,n);        % indicator matrix for missing values
-  nobs    = m - sum(nans);
-  
-  % set nobs to NaN when there are too few entries to form robust average
-  minobs  = m * (1 - max_miss);
-  k       = find(nobs < minobs);
-  nobs(k) = NaN;
-  
-  % center data
-  xc      = x - repmat(nanmean(x), m, 1);
-  
-  % replace NaNs with zeros in centered data matrix
-  xc(inan) = zeros(size(inan));
-  
-  % standard deviation
-  sx      = sqrt(sum(conj(xc).*xc) ./ (nobs-flag));
+if nargin < 2
+	dim = min(find(size(x)~=1));
+	if isempty(dim)
+		dim = 1; 
+	end	  
+end
 
+
+% Find NaNs in x and nanmean(x)
+nans = isnan(x);
+avg = nanmean(x,dim);
+
+% create array indicating number of element 
+% of x in dimension DIM (needed for subtraction of mean)
+tile = ones(1,max(ndims(x),dim));
+tile(dim) = size(x,dim);
+
+% remove mean
+x = x - repmat(avg,tile);
+
+count = size(x,dim) - sum(nans,dim);
+
+% Replace NaNs with zeros.
+x(isnan(x)) = 0; 
+
+
+% Protect against a  all NaNs in one dimension
+i = find(count==0);
+
+if flag == 0
+	y = sqrt(sum(x.*x,dim)./max(count-1,1));
+else
+	y = sqrt(sum(x.*x,dim)./max(count,1));
+end
+y(i) = i + NaN;
+
+% $Id: nanstd.m,v 1.1 2004/07/15 22:42:15 glaescher Exp glaescher $

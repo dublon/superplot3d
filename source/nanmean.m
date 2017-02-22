@@ -1,45 +1,54 @@
-function mx = nanmean(x)
-%NANMEAN  Mean of available data, ignoring NaNs.
+function y = nanmean(x,dim)
+% FORMAT: Y = NANMEAN(X,DIM)
+% 
+%    Average or mean value ignoring NaNs
 %
-%    NANMEAN(X) returns the mean of the available data in X, treating
-%    NaNs as missing values. For vectors, NANMEAN(X) is the mean value
-%    of the non-NaN elements in X.  For matrices, NANMEAN(X) is a row
-%    vector containing the mean value of each column, ignoring NaNs.
+%    This function enhances the functionality of NANMEAN as distributed in
+%    the MATLAB Statistics Toolbox and is meant as a replacement (hence the
+%    identical name).  
 %
-%    If, in forming the mean, the fraction of missing terms exceeds
-%    a critical value, the mean is set to NaN.
-%  
-%    See also MEAN, NANSTD, NANSUM.
+%    NANMEAN(X,DIM) calculates the mean along any dimension of the N-D
+%    array X ignoring NaNs.  If DIM is omitted NANMEAN averages along the
+%    first non-singleton dimension of X.
+%
+%    Similar replacements exist for NANSTD, NANMEDIAN, NANMIN, NANMAX, and
+%    NANSUM which are all part of the NaN-suite.
+%
+%    See also MEAN
 
-  % maximum admissible fraction of missing values
-  max_miss = 0.99;                
-  
-  error(nargchk(1,1,nargin))          % check number of input arguments 
-  if isempty(x)                       % check for empty input.
-    mx = NaN;
-    return
-  end
+% -------------------------------------------------------------------------
+%    author:      Jan Gläscher
+%    affiliation: Neuroimage Nord, University of Hamburg, Germany
+%    email:       glaescher@uke.uni-hamburg.de
+%    
+%    $Revision: 1.1 $ $Date: 2004/07/15 22:42:13 $
 
-  % if x is vector, make sure it is a row vector
-  if length(x)==prod(size(x))         
-    x = x(:);                         
-  end
-  [m,n]   = size(x);
-  
-  % replace NaNs with zeros.
-  inan    = find(isnan(x));
-  x(inan) = zeros(size(inan));
-  
-  % determine number of available observations on each variable
-  [i,j]   = ind2sub([m,n], inan);     % subscripts of missing entries
-  nans    = sparse(i,j,1,m,n);        % indicator matrix for missing values
-  nobs    = m - sum(nans);
-    
-  % set nobs to NaN when there are too few entries to form robust average
-  minobs  = m * (1 - max_miss);
-  k       = find(nobs < minobs);
-  nobs(k) = NaN;
-  
-  mx      = sum(x) ./ nobs;
+if isempty(x)
+	y = NaN;
+	return
+end
+
+if nargin < 2
+	dim = min(find(size(x)~=1));
+	if isempty(dim)
+		dim = 1;
+	end
+end
+
+% Replace NaNs with zeros.
+nans = isnan(x);
+x(isnan(x)) = 0; 
+
+% denominator
+count = size(x,dim) - sum(nans,dim);
+
+% Protect against a  all NaNs in one dimension
+i = find(count==0);
+count(i) = ones(size(i));
+
+y = sum(x,dim)./count;
+y(i) = i + NaN;
 
 
+
+% $Id: nanmean.m,v 1.1 2004/07/15 22:42:13 glaescher Exp glaescher $

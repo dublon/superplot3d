@@ -34,11 +34,29 @@ Outputs speed, idiothetic angle and three-dimensional angle;
 Customisable .pdf export;
 Menu driven UI with user definable preferences.
 
+# Superplot3d v.1.0.1
+Release 1.01 updated for compatibility with Matlab R2016a
+Ian Dublon, Sveriges lantbruksuniversitet 2017 02 20
+
+Maintenance update to remove warnings caused by changes in recent matlabs.
+
+-	Changes to 3rd party functions:
+autowarndlg.m removed depreciated figure properties drawmode and erasemode
+nanmean.m nansum.m and nanstd.m versions supplied previously used nargchk.m 
+These functions are present as part of the statistics and machine learning toolbox if installed. 
+Alternatively we now include nanmean.m, nansum.m and nanstd.m from Jan Gläscher’s nansuite toolbox:
+https://se.mathworks.com/matlabcentral/fileexchange/6837-nan-suite/content/nansuite/nanmean.m
+
+-	Changes to superplot3d.m
+LineSmoothing is gone (it's no longer supported). 
+Licencing info is updated to acknowledge alternate 3rd party function changes.
+
+
 Comments/Queries: Ian Dublon (email: ian dot dublon at slu dot se).
 
 Unit of Chemical Ecology, Sveriges lantbruksuniversitet, Alnarp SE230 53 Sweden.
 
-2013 - 2016
+2013 - 2017
 
 # Getting Started
 

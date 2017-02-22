@@ -96,7 +96,7 @@ global clear_button_message;
 
 clear_button_message = true;
 clearvars -global processed_data
-loadedstring = 'superplot3d v.1.0 (release build 20131001) 2013 Sveriges lantbruksuniversitet';
+loadedstring = 'superplot3d v.1.0.1 (build 20170220) 2017 Sveriges lantbruksuniversitet';
 set(handles.filenametext,'String', loadedstring);
 
 % --- Outputs from this function are returned to the command line.
@@ -413,7 +413,7 @@ selected_processed_data.name = processed_data.name;
 
 set(sel_figure,'Name',['Displaying ',answer{1},' to ', answer{2}])
 axes('Parent',sel_figure,'OuterPosition',[0 0 1 1]);
-plot3(selected_processed_data.x, selected_processed_data.y, selected_processed_data.z,'*-','markersize',2, 'linewidth',1, 'LineSmoothing','on');
+plot3(selected_processed_data.x, selected_processed_data.y, selected_processed_data.z,'*-','markersize',2, 'linewidth',1);
 xlabel('x'); ylabel('y'); zlabel('z');
 axis([choiceXaxis choiceYaxis choiceZaxis])
 view([choiceviewangle])
@@ -506,7 +506,7 @@ for fcount = choiceXYZs:choiceXYZe
     end
     
     subplot(ceil(sqrt(choiceXYZe)), ceil(sqrt(choiceXYZe)), fcount);
-    plotme = plot3(processed_data.x(star:fin),processed_data.y(star:fin),processed_data.z(star:fin),'*-','markersize',1, 'linewidth',1, 'LineSmoothing','on');
+    plotme = plot3(processed_data.x(star:fin),processed_data.y(star:fin),processed_data.z(star:fin),'*-','markersize',1, 'linewidth',1);
     
     axis([choiceXaxis choiceYaxis choiceZaxis]);
     view([choiceviewangle]);
@@ -700,7 +700,7 @@ axes('OuterPosition',[0 0.4 0.45 0.55]);
 % firstplot
 datacursormode
 view([-37.5 30]);
-plot3(processed_data.x(choiceXYZs:choiceXYZe),processed_data.y(choiceXYZs:choiceXYZe),processed_data.z(choiceXYZs:choiceXYZe),'*-','markersize',2, 'linewidth',1, 'LineSmoothing','on')
+plot3(processed_data.x(choiceXYZs:choiceXYZe),processed_data.y(choiceXYZs:choiceXYZe),processed_data.z(choiceXYZs:choiceXYZe),'*-','markersize',2, 'linewidth',1)
 xlabel('x'); ylabel('y'); zlabel('z');
 axis([choiceXaxis choiceYaxis choiceZaxis]);
 title([num2str(processed_data.name, processed_data.ext),' ', num2str(choiceXYZs),' - ', num2str(choiceXYZe)]);
@@ -712,7 +712,7 @@ axes('OuterPosition',[0.48 0.70 0.25 0.25]);
 title([processed_data.name, processed_data.ext])
 grid('on');
 hold on
-plot(sel_ctheta, 'linewidth',1, 'LineSmoothing','on')
+plot(sel_ctheta, 'linewidth',1)
 %hi = findobj(gca, 'Type', 'patch');
 %set (hi, 'FaceAlpha', 0.7);
 title('theta')
@@ -722,7 +722,7 @@ axes('OuterPosition',[0.73 0.70 0.25 0.25]);
 title([processed_data.name, processed_data.ext])
 grid('on');
 hold on
-plot(sel_cr, 'linewidth',1, 'LineSmoothing','on')
+plot(sel_cr, 'linewidth',1)
 %hi = findobj(gca, 'Type', 'patch');
 %set (hi, 'FaceAlpha', 0.7);
 title('radius')
@@ -731,26 +731,26 @@ title('radius')
 axes('OuterPosition',[0.48 0.40 0.25 0.25]);
 grid('on');
 hold on
-plot(sel_ch, 'linewidth',1, 'LineSmoothing','on')
+plot(sel_ch, 'linewidth',1)
 %hi = findobj(gca, 'Type', 'patch');
 %set (hi, 'FaceAlpha', 0.7);
 title('height')
 
 % smoothed theta plot-----------------------
 axes('OuterPosition',[0.10 0.05 0.25 0.25]);
-plot(ave_sel_ctheta, 'linewidth',1, 'LineSmoothing','on')
+plot(ave_sel_ctheta, 'linewidth',1)
 grid('on');
 title('smoothed theta')
 
 % smoothed radius plot-----------------------
 axes('OuterPosition',[0.40 0.05 0.25 0.25]);
-plot(ave_sel_cr, 'linewidth',1, 'LineSmoothing','on')
+plot(ave_sel_cr, 'linewidth',1)
 grid('on');
 title('smoothed radius')
 
 % smoothed height plot-----------------------
 axes('OuterPosition',[0.70 0.05 0.25 0.25]);
-plot(ave_sel_ch, 'linewidth',1, 'LineSmoothing','on')
+plot(ave_sel_ch, 'linewidth',1)
 grid('on');
 title('smoothed height')
 
@@ -903,7 +903,7 @@ if ~isequal(processed_data,[])
         else
             plot3(processed_data.x(fileCol : fileColUpper), ...
                 processed_data.y(fileCol : fileColUpper), ...
-                processed_data.z(fileCol : fileColUpper),'linewidth',1, 'LineSmoothing','on','Color', colors(color + 1, : ) );
+                processed_data.z(fileCol : fileColUpper),'linewidth',1, 'Color', colors(color + 1, : ) );
         end
         
         fileCol = fileCol + div;
@@ -979,7 +979,7 @@ cut_processed_data = process([CutDataX, CutDataY, CutDataZ, CutDataT], sprintf('
 cut_processed_data.Strcutrange = Strcutrange;
 cut_processed_data.data_format = processed_data.data_format;
 cut_processed_data.name = processed_data.name;
-plot3(processed_data.x(cutrange), processed_data.y(cutrange), processed_data.z(cutrange),'*-','markersize',2, 'linewidth',1, 'LineSmoothing','on')
+plot3(processed_data.x(cutrange), processed_data.y(cutrange), processed_data.z(cutrange),'*-','markersize',2, 'linewidth',1)
 
 try
     load framerate
@@ -1139,7 +1139,7 @@ get_info_button_Callback
 % --------------------------------------------------------------------
 function about_menu_Callback(hObject, eventdata, handles)
 
-msgbox({'Superplot3d','v.1.0 (release build 20131001)',...
+msgbox({'Superplot3d','v.1.0.1 (build 20170220)',...
     'A freeware graphic visualiser for trajectory output containing X,Y,Z and Time.','',...
     'Luke Whitehorn, Frances M. Hawkes and Ian A.N. Dublon.','2013',...,'',...,'',...
     'Some code adapted from Stephen Young and ported by the authors.',...
@@ -1341,8 +1341,8 @@ save points
 function license_menu_Callback(hObject, eventdata, handles)
 licensedialog = msgbox({'This product is released "as is", with absolutely no warranty.','',...
     'Licensed under the terms of the Creative Commons Attribution 3.0 license.',...
-    'http://creativecommons.org/licenses/by/3.0/','', 'Source generously hosted by Sveriges lantbruksuniversitet (SLU).'...
-    'http://www.superplot3d.slu.se/dublon.',...
+    'http://creativecommons.org/licenses/by/3.0/','', 'Source formerly hosted by Sveriges lantbruksuniversitet (SLU).'...
+    'http://www.superplot3d.slu.se',...
     '',...
     'We gratefully acknowledge the following authors for their freeware functions, used herein:','',...
     'AutoWarnDlg.m (C) Jan Simon (http://www.mathworks.com/matlabcentral/fileexchange/24871)',...
@@ -1352,7 +1352,7 @@ licensedialog = msgbox({'This product is released "as is", with absolutely no wa
     'rad2deg.m (C) Keith Brady (http://www.mathworks.com/matlabcentral/fileexchange/28503)',...
     'csvwrite_with_headers.m (http://www.mathworks.com/matlabcentral/fileexchange/29933)',...
     '',...
-    'nanmean.m (C) Tapio Schneider (http://www.clidyn.ethz.ch)',...
+    'nanmean.m (C) Jan Glaescher (https://se.mathworks.com/matlabcentral/fileexchange/6837-nan-suite/content/nansuite/nanmean.m)',...
     'nanstd.m',...
     'nansum.m'},'Licensing');
 
